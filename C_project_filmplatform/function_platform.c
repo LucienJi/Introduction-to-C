@@ -422,7 +422,8 @@ void find_favor(char* name,LLuser user,LLgenre genre){
     for(int j = 0;j<=max_indice;j++){
         fav_genre = fav_genre->next;
     }
-    printf("Favourite genre: %s\n",fav_genre->genre_name);
+    printf("%s 's Favourite genre: %s\n",name, fav_genre->genre_name);
+    printf("The following list is about %s film according to their average notes,\n you can choose your desired film from the list.\n",fav_genre->genre_name);
     int n;
     float val;
     for( int m =1;m<fav_genre->numer;m++){
