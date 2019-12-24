@@ -22,4 +22,6 @@ ElementType Median3(ElementType A[],int left, int right);
 void qcsort(ElementType A[],int left, int right);
 
 void Quicksort(ElementType A[],int N);
+void selectionsort(ElementType A[], int N);
+void bubblesort(ElementType A[],int N);
 #endif //SORT_SORT_H

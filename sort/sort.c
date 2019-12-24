@@ -147,3 +147,30 @@ void qcsort(ElementType A[],int left, int right){
 void Quicksort(ElementType A[],int N){
     qcsort(A,0,N-1);
 }
+
+
+void selectionsort(ElementType A[],int N){  // 错点： 每次被比较的应该是 min_indice,而不是i！！！
+    int i,j,min_indice;
+    for( i =0; i<N;i++){
+        min_indice = i;
+        for(j = i;j<N;j++){
+            if(A[j]<A[min_indice]){
+                min_indice =j;
+
+            }
+
+        }
+        swap(&A[i],&A[min_indice]);
+    }
+}
+void bubblesort(ElementType A[], int N){
+    // 倒序版 insert, 相邻换位，从尾到头，最小的优先浮出来
+    int i,j;
+    for(i = 0;i<N;i++){
+        for(j = 0;j<N-i-1;j++){  // !!!!!!这个 N-i-1 是必须的，否则 i = 0; j<N 时， j_+1会超出索引！！！
+            if(A[j]>A[j+1]){
+                swap(&A[j],&A[j+1]);
+            }
+        }
+    }
+}
