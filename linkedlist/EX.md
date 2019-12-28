@@ -60,3 +60,38 @@ llist_ptr intersect(llist_ptr L,llist_ptr P){
 
 }
 ```
+#### 3.5 输出并集
+```
+llist_ptr Union(llist_ptr L,llist_ptr P){
+    llist_ptr res = malloc(sizeof(llist_ptr));
+    init_Linkedlist(res);
+    set_start(L);set_start(P);set_start(res);
+    next(L);next(P);
+    while (L->fence!=NULL && P->fence!=NULL){ // 先跑光一个再， flush 剩下的
+        if(L->fence->element==P->fence->element){
+            append(res,L->fence->element);
+            printf("%d\n",L->fence->element);
+
+            //first error!!! should next；
+            next(L);next(P);
+        } else{
+            if(L->fence->element<P->fence->element){
+                append(res,L->fence->element);
+                next(L);
+            } else{
+                append(res,P->fence->element);
+                next(P);
+            }
+        }
+
+    }
+    while (L->fence!=NULL){
+            append(res,L->fence->element);
+            next(L);
+    }
+    while (P->fence!=NULL){
+        append(res,P->fence->element);
+        next(P);
+    }
+    return res;
+    ```
