@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct poly* poly_ptr;
+typedef struct Linked_poly* llpoly;
+struct poly{
+    int coef;
+    int ord;
+    poly_ptr next;
+};
+
+struct Linked_poly{
+    poly_ptr head;
+    poly_ptr tail;
+
+
+};
+
+void init_Linked_poly(llpoly L){
+    poly_ptr temp = malloc(sizeof(struct poly));
+    L->head = temp;
+    L->head->next = NULL;
+    L->tail = L->head;
+
+}
+void addition(llpoly L, int coef,int ord) {  // 尾插！！！
+    poly_ptr node_temp = malloc(sizeof(struct poly));
+    node_temp->next = NULL;
+    node_temp->coef = coef;
+    node_temp->ord = ord;
+
+    L->tail->next = node_temp;
+    L->tail = node_temp;
+}
+
+
+
+llpoly add_poly(llpoly L,llpoly P){
+    llpoly res = malloc(sizeof(struct Linked_poly));
+    init_Linked_poly(res);
+    poly_ptr temp1 = L->head;
+    poly_ptr temp2 = P->head;
+    temp1 = temp1->next;temp2 = temp2->next;
+    while (temp1!=NULL&&temp2!=NULL){
+        if (temp1->ord==temp2->ord){
+            //插小
+            addition(res,temp1->coef+temp2->coef,temp1->ord);
+
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+
+        }else{
+            if(temp1->ord>temp2->ord){
+                addition(res,temp2->coef,temp2->ord);
+                temp2 = temp2->next;
+            } else{
+                addition(res,temp1->coef,temp1->ord);
+                temp1=temp1->next;
+
+            }
+
+        }
+    }
+
+    while(temp1!=NULL){
+        addition(res,temp1->coef,temp1->ord);
+        temp1 = temp1->next;
+
+    }
+    while(temp2!=NULL){
+        addition(res,temp2->coef,temp2->ord);
+        temp2 = temp2->next;
+
+    }
+    return res;
+
+
+}
+void printpoly(llpoly L){
+    poly_ptr temp = L->head->next;
+    while (temp!= NULL){
+        printf("+%d*x^%d",temp->coef,temp->ord);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+void cleanpoly(llpoly L){
+    while (L->head->next!=NULL){
+        poly_ptr temp = L->head->next;
+        L->head->next = temp->next;
+        free(temp);
+    }
+    free(L->head);
+    free(L);
+}
+llpoly multiply_poly(llpoly L,llpoly P){
+    llpoly res =malloc(sizeof(struct Linked_poly));
+
+    init_Linked_poly(res);
+    poly_ptr temp1 = L->head->next;
+    while (temp1!=NULL){
+        llpoly temp_poly = malloc(sizeof(struct Linked_poly));
+        init_Linked_poly(temp_poly);
+        poly_ptr temp2 = P->head->next;
+        while (temp2!=NULL){
+            addition(temp_poly,temp1->coef*temp2->coef,temp1->ord*temp2->ord);
+            temp2 = temp2->next;
+        }
+        res = add_poly(res,temp_poly);
+        temp1 = temp1->next;
+        cleanpoly(temp_poly);
+
+    }
+    return res;
+
+
+}
+int main(){
+    llpoly L = malloc(sizeof(struct Linked_poly));
+    llpoly P = malloc(sizeof(struct Linked_poly));
+    init_Linked_poly(L);
+    init_Linked_poly(P);
+   for (int i = 0; i < 5; ++i) {
+        addition(L,i+1,i+1);
+        addition(P,i+2,i+1);
+    }
+   printpoly(L);
+   printpoly(P);
+   printpoly(multiply_poly(L,P));
+
+
+
+
+    return 0;
+};
