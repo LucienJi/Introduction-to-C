@@ -174,3 +174,81 @@ void bubblesort(ElementType A[], int N){
         }
     }
 }
+
+void swap(int arry[],int i,int j){
+    int tmp = arry[i];
+    arry[i] = arry[j];
+    arry[j] = tmp;
+}
+int findpivot(int a[],int left,int right){
+    int med = (left+right)/2;
+    if(a[left]>a[med]){
+        swap(a,left,med);
+    }
+    if(a[left]>a[right]){
+        swap(a,left,right);
+    }
+    if(a[med]>a[right]){
+        swap(a,med,right);
+    }
+
+    swap(a,med,right-1);
+    return a[right-1];
+
+
+}
+void qcsort(int a[],int left,int right){
+    if(left+1<right){
+    int pivot = findpivot(a,left,right);
+    int i =left;int j =(right-1);
+    while(1){
+        while(a[++i]<pivot){;}
+        while(a[--j]>pivot){;}
+        if(i<j){
+        swap(a,i,j);}
+        else{
+            break;
+        }
+    }
+    swap(a,i,right-1);
+    qcsort(a,left,i);
+    qcsort(a,i+1,right);}
+    else{
+        if(a[left]>a[right]){
+            swap(a,left,right);
+        }
+    }
+
+}
+void Quicksort(int a[],int len){
+    qcsort(a,0,len-1);
+}
+struct ListNode* sortList(struct ListNode* head){
+    struct ListNode* tmp = head;
+    int i= 0;
+     while(tmp!=NULL){
+        tmp=tmp->next;
+        i++;}
+    if(i>0){
+        int a[i+1];
+        tmp = head;
+        i = 0;
+
+    while(tmp!=NULL){
+        a[i]= tmp->val;
+        tmp=tmp->next;
+        i++;
+    }
+    Quicksort(a,i);
+    tmp = head;
+    int j =0;
+    while(tmp!=NULL){
+        tmp->val = a[j];
+        j++;
+        tmp = tmp->next;
+    }
+    return head;}
+    else{
+        return head;
+    }
+}
