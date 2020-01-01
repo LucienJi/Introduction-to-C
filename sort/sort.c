@@ -12,7 +12,8 @@ void print(ElementType A[], int N){
     }
 }
 
-void insertsort(ElementType A[], int N){
+void insertsort(ElementType A[], int N){ // 插排，，第二次循环中，每次多看一个，然后类似冒泡得往上浮，且默认前p-1都是从小拍到大得
+                                        // worst case 就是完全逆序
     int p = 0;
     for (p=0;p<N;p++){
         ElementType temp;
@@ -192,7 +193,7 @@ int findpivot(int a[],int left,int right){
         swap(a,med,right);
     }
 
-    swap(a,med,right-1);
+    swap(a,med,right-1); // 藏住med值，真正重要的是pivot的值而不是pivot的位置，这个的目的是为了确保不是pivot不是最大或者最小值
     return a[right-1];
 
 
@@ -200,10 +201,10 @@ int findpivot(int a[],int left,int right){
 void qcsort(int a[],int left,int right){
     if(left+1<right){
     int pivot = findpivot(a,left,right);
-    int i =left;int j =(right-1);
+    int i =left;int j =(right-1); // 必须提前跳过
     while(1){
         while(a[++i]<pivot){;}
-        while(a[--j]>pivot){;}
+        while(a[--j]>pivot){;}  // 先++，先-- 可以避免重复元素导致的无线循环
         if(i<j){
         swap(a,i,j);}
         else{
